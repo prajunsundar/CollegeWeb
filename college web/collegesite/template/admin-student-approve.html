@@ -1,0 +1,52 @@
+{% extends 'admin-base3.html' %}
+
+{% block content %}
+
+
+<div class="container user-row">
+
+  <div class="row">
+       <div class="table-responsive">
+           <h6 class="table-title">STUDENT'S TO APPROVE</h6>
+    <div class="panel panel-primary">
+
+      <table class="table table-hover table-striped table-bordered" id="dev-table">
+
+        <thead class="table-h">
+
+
+          <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Fee</th>
+            <th>Contact</th>
+            <th>Actions</th>
+
+          </tr>
+        </thead>
+       {% for s in students %}
+        <tr>
+          <td> {{s.get_name}}</td>
+          <td>{{s.cl}}</td>
+          <td>{{s.fee}}</td>
+          <td>{{s.mobile}}</td>
+          <td><a class="btn btn-success btn-xs" href="{% url 'app:student-approve' s.id  %}"><i class="fa-solid fa-thumbs-up"></i></a>
+         <a class="btn btn-danger btn-xs" href="{% url 'app:admin-student-cancel' s.id  %}"><i class="fa-solid fa-thumbs-down"></i></a></td>
+         {% empty %}
+          <td rowspan="5">There are 0 students to approve</td>
+
+
+
+        </tr>
+        {% endfor %}
+
+
+      </table>
+    </div>
+       </div>
+
+
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'admin-base3.html' %}
+
+{% block content %}
+
+
+<div class="container user-row">
+    	<div class="row " >
+            <div class="table-responsive">
+                <h6 class="table-title">ALL TEACHER'S</h6>
+                <div class="panel panel-primary">
+
+					<table class="table table-hover table-striped table-bordered" id="dev-table">
+
+                        <thead class="table-h">
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Salary</th>
+                            <th>Joining Date</th>
+                            <th>Actions</th>
+
+                        </tr>
+                        </thead>
+                        {% for t in teachers %}
+
+                        <tr>
+                            <td> {{t.get_name}}</td>
+                            <td>{{t.mobile}}</td>
+                            <td>${{t.salary}}</td>
+                            <td>{{t.joindate}}</td>
+                            <td><a class="btn btn-primary btn-xs" href="{% url 'app:admin-teacher-update' t.id  %}"  ><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                <a class="btn btn-danger btn-xs" href="{% url 'app:admin-teacher-delete' t.id  %}"  ><i class="fa-solid fa-trash"></i></a></td>
+                            {% empty %}
+                               <td rowspan="5">There are no faculties</td>
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock content %}
+

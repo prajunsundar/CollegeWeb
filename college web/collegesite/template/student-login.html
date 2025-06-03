@@ -1,0 +1,47 @@
+{% extends 'admin-base4.html' %}
+
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="container student-card">
+    <form method="post">
+    {% csrf_token %}
+    <div class="container register-form">
+      <div class="form">
+        <div class="note">
+          <p>Student Login</p>
+        </div>
+
+        <div class="form-content">
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="form-group">
+                {% render_field form.username class="form-control" placeholder="Username" %}
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="form-group">
+                {% render_field form.password class="form-control" placeholder="Password" %}
+              </div>
+
+            </div>
+          </div>
+          <button type="submit" class="btn-Submit">Login</button>
+          <div class="text-center">Don't have an account? <a href="{% url 'app:student-signup' %}">SignUp here</a></div>
+          {% for msg in messages %}
+          <div class="text-center">
+            <span>{{msg}}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+{% endblock content %}
