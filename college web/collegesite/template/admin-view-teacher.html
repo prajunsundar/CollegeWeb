@@ -14,6 +14,7 @@
                         <thead class="table-h">
                         <tr>
                             <th>Name</th>
+                            <th>Deparment</th>
                             <th>Contact</th>
                             <th>Salary</th>
                             <th>Joining Date</th>
@@ -25,6 +26,7 @@
 
                         <tr>
                             <td> {{t.get_name}}</td>
+                            <td> {{t.department}}</td>
                             <td>{{t.mobile}}</td>
                             <td>${{t.salary}}</td>
                             <td>{{t.joindate}}</td>
@@ -32,7 +34,7 @@
 
                                 <a class="btn btn-danger btn-xs" href="{% url 'app:admin-teacher-delete' t.id  %}"  ><i class="fa-solid fa-trash"></i></a></td>
                             {% empty %}
-                               <td rowspan="5">There are no faculties</td>
+                               <td class="text-center" colspan="6">There are no faculties</td>
                         </tr>
 
                         {% endfor %}

@@ -7,50 +7,30 @@
 
   <div class="row user-row">
     <div class="table-responsive">
-      <h6 class="table-title">STUDENT'S ATTENDANCE</h6>
+      <h6 class="table-title">STUDENT'S ATTENDANCE {{teacher.department}}</h6>
       <div class="panel panel-primary">
 
 
-      <table class="table table-hover table-striped table-bordered" id="dev-table">
+      <table class="table table-hover table-striped  table-bordered" id="dev-table">
         <thead class="table-h">
 
-          <tr>
-            <th>Course</th>
+          <tr class="text-center" >
             <th>Take Attendance</th>
             <th>View Attendance</th>
           </tr>
         </thead>
 
         <tr>
-          <td> Bsc.Physics</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Physics'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Physics'  %}"><i class="fa-solid fa-eye"></i></a></td>
-        </tr>
-
-          <tr>
-          <td> Bsc.Chemistry</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Chemistry'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Chemistry'  %}"><i class="fa-solid fa-eye"></i></a></td>
-        </tr>
-          <tr>
-          <td> Bsc.Botany</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Botany'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Botany'  %}"><i class="fa-solid fa-eye"></i></a></td>
-        </tr>
-          <tr>
-          <td> Bsc.Zoology</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Zoology'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Zoology'  %}"><i class="fa-solid fa-eye"></i></a></td>
-        </tr>
-          <tr>
-          <td> Bsc.Mathematics</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Mathmatics'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Mathmatics'  %}"><i class="fa-solid fa-eye"></i></a></td>
-        </tr>
-          <tr>
-          <td> Bsc.Electronics</td>
-          <td><a class="btn btn-primary btn-xs" href="{% url 'app:teacher-attendance-take' 'Bsc.Electronics'  %}"><i class="fa-solid fa-square-plus"></i></a></td>
-          <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-attendance-view' 'Bsc.Electronics'  %}"><i class="fa-solid fa-eye"></i></a></td>
+          <td class="text-center">
+            <a class="btn btn-primary btn-xs attendance-btn" href="{% url 'app:teacher-attendance-take' %}">
+              <i class="fa-solid fa-square-plus"></i>
+            </a>
+          </td>
+          <td class="text-center">
+            <a class="btn btn-success btn-xs attendance-btn" href="{% url 'app:teacher-attendance-view' %}">
+              <i class="fa-solid fa-eye"></i>
+            </a>
+          </td>
         </tr>
 
 

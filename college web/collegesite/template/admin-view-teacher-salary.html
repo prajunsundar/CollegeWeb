@@ -21,8 +21,9 @@
         <thead class="table-h">
 
           <tr>
-            <th>Teacher's Name</th>
-
+            <th>Name</th>
+            <th>Department</th>
+            <th>Contact</th>
             <th>Salary</th>
 
           </tr>
@@ -31,9 +32,11 @@
 
         <tr>
           <td> {{t.get_name}}</td>
+          <td>{{t.department}}</td>
+          <td>{{t.mobile}}</td>
           <td>${{t.salary}}</td>
           {% empty %}
-          <td rowspan="5">There are no faculties</td>
+          <td class="text-center" colspan="4">There are no faculties</td>
         </tr>
 
 

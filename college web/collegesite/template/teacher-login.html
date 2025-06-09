@@ -32,6 +32,11 @@
           </div>
           <button type="submit" class="btn-Submit">Login</button>
           <div class="text-center">Don't have an account? <a href="{% url 'app:teacher-signup' %}">SignUp here</a></div>
+          {% for msg in messages %}
+          <div class="text-center">
+            <h4>{{msg}}</h4>
+          </div>
+          {% endfor %}
         </div>
       </div>
     </div>

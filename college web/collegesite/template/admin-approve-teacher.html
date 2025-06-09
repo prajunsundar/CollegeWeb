@@ -15,6 +15,7 @@
 
           <tr>
             <th>Name</th>
+            <th>Department</th>
             <th>Contact</th>
             <th>Salary</th>
             <th>Joining Date</th>
@@ -25,13 +26,14 @@
        {% for t in teachers %}
         <tr>
           <td> {{t.get_name}}</td>
+           <td>{{t.department}}</td>
           <td>{{t.mobile}}</td>
           <td>{{t.salary}}</td>
           <td>{{t.joindate}}</td>
           <td><a class="btn btn-success btn-xs" href="{% url 'app:teacher-approve' t.id  %}"><i class="fa-solid fa-thumbs-up"></i></a>
           <a class="btn btn-danger btn-xs" href="{% url 'app:admin-teacher-cancel' t.id  %}"><i class="fa-solid fa-thumbs-down"></i></a></td>
         {% empty %}
-          <td rowspan="5">There are 0 teachers to approve</td>
+          <td class="text-center" colspan="6">There are 0 teachers to approve</td>
         </tr>
 
 

@@ -18,7 +18,7 @@ urlpatterns=[
     path('teacher-login',LoginView.as_view(template_name='teacher-login.html')),
     path('student-login',LoginView.as_view(template_name='student-login.html')),
     path('login-view',views.login_view,name='login-view'),
-    path('logout',LogoutView.as_view(template_name='index.html'),name='logout'),
+    path('logout/',LogoutView.as_view(next_page='/'),name='logout'),
 
 
     path('admin-dashboard',views.admin_dashboard_view,name='admin_dash'),
@@ -59,8 +59,8 @@ urlpatterns=[
     path('teacher-student-view', views.teacher_view_student_view, name='teacher-student'),
     path('teacher-student-fees', views.teacher_student_fee_view, name='teacher-student-fees'),
     path('teacher-attendance', views.teacher_attendance_view, name='teacher-attendance'),
-    path('teacher-attendance-take/<str:cl>', views.teacher_take_attendance_view, name='teacher-attendance-take'),
-    path('teacher-attendance-view/<str:cl>', views.teacher_view_attendance_view, name='teacher-attendance-view'),
+    path('teacher-attendance-take', views.teacher_take_attendance_view, name='teacher-attendance-take'),
+    path('teacher-attendance-view', views.teacher_view_attendance_view, name='teacher-attendance-view'),
     path('teacher-notice-board', views.teacher_notice_view, name='teacher-notice'),
 
     path('student-dashboard', views.student_dashboard_view, name='student-dash'),

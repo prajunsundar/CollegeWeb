@@ -33,7 +33,7 @@
           <td><a class="btn btn-success btn-xs" href="{% url 'app:student-approve' s.id  %}"><i class="fa-solid fa-thumbs-up"></i></a>
          <a class="btn btn-danger btn-xs" href="{% url 'app:admin-student-cancel' s.id  %}"><i class="fa-solid fa-thumbs-down"></i></a></td>
          {% empty %}
-          <td rowspan="5">There are 0 students to approve</td>
+          <td class="text-center" colspan="5">There are 0 students to approve</td>
 
 
 

@@ -6,18 +6,22 @@ from django.urls import reverse
 from django.contrib import messages
 
 from .models import Attendance,Notice,StudentExtra,TeacherExtra
-from .forms import AttendanceForm,StudentExtraForm,StudentUserForm,TeacherExtraForm,TeacherUserForm,AdminSigupForm,AskDateForm,ContactusForm,NoticeForm
+from .forms import AttendanceForm,StudentExtraForm,StudentUserForm,TeacherExtraForm,TeacherUserForm,AdminSigupForm,AskDateForm,NoticeForm
 from django import forms
 from django.contrib.auth.decorators import login_required,user_passes_test
 
 
 
+#home
 
 def index(request):
     classes=['Bsc.Physics','Bsc.Chemistry','Bsc.Botany','Bsc.Zoology','Bsc.Mathmatics','Bsc.Electronics']
     return render(request,'index.html',{'courses':classes})
 
 
+
+
+#signup section
 def admin_signup_view(request):
     form=AdminSigupForm()
     if request.method=='POST':
@@ -84,6 +88,9 @@ def is_teacher(user):
 def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
 
+
+#login section
+
 def admin_view(request):
     if request.user.is_authenticated:
         if is_admin(request.user):
@@ -97,8 +104,9 @@ def teacher_view(request):
             account_approval=TeacherExtra.objects.all().filter(user_id=request.user.id,status=True)
             if account_approval:
                 return redirect('app:teacher-dash')
-
-
+            else:
+                messages.error(request, 'Your request not confirmed')
+                return HttpResponseRedirect('teacher-login')
 
     return HttpResponseRedirect('teacher-login')
 
@@ -110,8 +118,8 @@ def student_view(request):
             if account_approval:
                 return redirect('app:student-dash')
             else:
-                # messages.error(request, 'Your request not confirmed')
-                return redirect('app:admin-login')
+                messages.error(request, 'Your request not confirmed')
+                return HttpResponseRedirect('student-login')
 
     return HttpResponseRedirect('student-login')
 
@@ -129,7 +137,7 @@ def login_view(request):
 
 
 
-
+#admins section
 
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
@@ -203,14 +211,14 @@ def admin_add_teacher_view(request):
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_view_teacher_view(request):
-    teachers=TeacherExtra.objects.all().filter(status=True)
+    teachers=TeacherExtra.objects.all().order_by('department').filter(status=True)
     return render(request,'admin-view-teacher.html',{'teachers':teachers})
 
 
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_approve_teacher_view(request):
-    teachers=TeacherExtra.objects.all().filter(status=False)
+    teachers=TeacherExtra.objects.all().order_by('department').filter(status=False)
     return render(request,'admin-approve-teacher.html',{'teachers':teachers})
 
 @login_required(login_url='admin-login')
@@ -256,20 +264,20 @@ def admin_update_teacher_view(request,pk):
 
 
 
-@login_required(login_url='adminlogin')
+@login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def delete_teacher_from_school_view(request,pk):
     teacher=TeacherExtra.objects.get(id=pk)
     user=User.objects.get(id=teacher.user_id)
     user.delete()
     teacher.delete()
-    return redirect('admin-teacher-view')
+    return redirect('app:admin-teacher-view')
 
 
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_view_teacher_salary_view(request):
-    teachers=TeacherExtra.objects.all().filter(status=True)
+    teachers=TeacherExtra.objects.all().order_by('department').filter(status=True)
     return render(request,'admin-view-teacher-salary.html',{'teachers':teachers})
 
 
@@ -283,7 +291,7 @@ def admin_student_view(request):
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_view_student_view(request):
-    students=StudentExtra.objects.all().filter(status=True)
+    students=StudentExtra.objects.all().order_by('cl').filter(status=True)
     return render(request,'admin-student-view.html',{'students':students})
 
 @login_required(login_url='admin-login')
@@ -317,7 +325,7 @@ def admin_add_student_view(request):
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_approve_student_view(request):
-    students=StudentExtra.objects.all().filter(status=False)
+    students=StudentExtra.objects.all().order_by('cl').filter(status=False)
     return render(request,'admin-student-approve.html',{'students':students})
 
 @login_required(login_url='admin-login')
@@ -374,7 +382,7 @@ def delete_student_from_school_view(request,pk):
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_student_fee_view(request):
-    students=StudentExtra.objects.all().filter(status=True)
+    students=StudentExtra.objects.all().filter(status=True).order_by('cl')
     return render(request,'admin-student-fee.html',{'students':students})
 
 @login_required(login_url='admin-login')
@@ -399,8 +407,7 @@ def admin_attendance_view(request):
 @login_required(login_url='admin-login')
 @user_passes_test(is_admin)
 def admin_take_attendance_view(request,cl):
-    students=StudentExtra.objects.all().filter(cl=cl,status=True)
-    print(students)
+    students=StudentExtra.objects.all().order_by('cl').filter(cl=cl,status=True)
     aform=AttendanceForm()
     if request.method=='POST':
         form=AttendanceForm(request.POST)
@@ -414,6 +421,7 @@ def admin_take_attendance_view(request,cl):
                 AttendanceModel.present_status=Attendances[i]
                 AttendanceModel.roll=students[i].roll
                 AttendanceModel.save()
+
             return redirect('app:admin-attendance')
         else:
             print('form invalid')
@@ -430,7 +438,7 @@ def admin_view_attendance_view(request,cl):
         if form.is_valid():
             date=form.cleaned_data['date']
             attendance_data=Attendance.objects.all().filter(date=date,cl=cl)
-            student_data=StudentExtra.objects.all().filter(cl=cl)
+            student_data=StudentExtra.objects.all().filter(cl=cl).order_by('cl')
             mylist=zip(attendance_data,student_data)
             return render(request,'admin-attendance-view.html',{'cl':cl,'mylist':mylist,'date':date})
         else:
@@ -441,28 +449,7 @@ def admin_view_attendance_view(request,cl):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#teachers section
 
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
@@ -480,14 +467,16 @@ def teacher_dashboard_view(request):
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
 def teacher_view_student_view(request):
-    students=StudentExtra.objects.all().filter(status=True)
+    teacher = TeacherExtra.objects.all().filter(status=True, user_id=request.user.id)
+    students=StudentExtra.objects.all().filter(status=True,cl=teacher[0].department)
     return render(request,'teacher-student-view.html',{'students':students})
 
 
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
 def teacher_student_fee_view(request):
-    students=StudentExtra.objects.all()
+    teacher = TeacherExtra.objects.all().filter(status=True, user_id=request.user.id)
+    students = StudentExtra.objects.all().filter(status=True, cl=teacher[0].department)
     return render(request,'teacher-student-fee.html',{'students':students})
 
 
@@ -497,12 +486,15 @@ def teacher_student_fee_view(request):
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
 def teacher_attendance_view(request):
-    return render(request,'teacher-attendance.html')
+    teacher=TeacherExtra.objects.all().filter(user_id=request.user.id,status=True)
+    return render(request,'teacher-attendance.html',{'teacher':teacher})
 
 
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
-def teacher_take_attendance_view(request,cl):
+def teacher_take_attendance_view(request):
+    teacher = TeacherExtra.objects.all().filter(user_id=request.user.id, status=True)
+    cl=teacher[0].department
     students=StudentExtra.objects.all().filter(cl=cl,status=True)
     aform=AttendanceForm()
     if request.method=='POST':
@@ -526,7 +518,9 @@ def teacher_take_attendance_view(request,cl):
 
 @login_required(login_url='teacher-login')
 @user_passes_test(is_teacher)
-def teacher_view_attendance_view(request,cl):
+def teacher_view_attendance_view(request):
+    teacher = TeacherExtra.objects.all().filter(user_id=request.user.id, status=True)
+    cl = teacher[0].department
     form=AskDateForm()
     if request.method=='POST':
         form=AskDateForm(request.POST)
@@ -563,7 +557,7 @@ def teacher_notice_view(request):
 
 
 
-
+#students section
 
 @login_required(login_url='student-login')
 @user_passes_test(is_student)
@@ -584,5 +578,4 @@ def student_dashboard_view(request):
 def student_attendance_view(request):
     studentdata=StudentExtra.objects.all().filter(user_id=request.user.id,status=True)
     attendancedata=Attendance.objects.all().filter(cl=studentdata[0].cl,roll=studentdata[0].roll)
-    mylist=zip(attendancedata,studentdata)
-    return render(request,'student-attendance-view.html',{'mylist':mylist})
+    return render(request,'student-attendance-view.html',{'mylist':attendancedata})

@@ -28,7 +28,7 @@ class TeacherUserForm(forms.ModelForm):
 class TeacherExtraForm(forms.ModelForm):
     class Meta:
         model=models.TeacherExtra
-        fields=['salary','mobile','status']
+        fields=['salary','mobile','status','department']
 
 
 
@@ -37,10 +37,10 @@ class TeacherExtraForm(forms.ModelForm):
 presence_choices=(('Present','Present'),('Absent','Absent'))
 class AttendanceForm(forms.Form):
     present_status=forms.ChoiceField( choices=presence_choices)
-    date=forms.DateField()
+    date=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
 class AskDateForm(forms.Form):
-    date=forms.DateField()
+    date=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
 
 
@@ -52,9 +52,3 @@ class NoticeForm(forms.ModelForm):
         fields='__all__'
 
 
-
-#for contact us page
-class ContactusForm(forms.Form):
-    Name = forms.CharField(max_length=30)
-    Email = forms.EmailField()
-    Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))

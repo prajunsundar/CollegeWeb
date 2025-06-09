@@ -12,22 +12,22 @@
           <table class="table table-hover table-striped table-bordered" id="dev-table">
             <thead class="table-h">
 
-          <tr>
+          <tr class="text-center">
             <th>Student Name</th>
-            <th>Student Course</th>
+            <th>Contact</th>
             <th>Student Roll No</th>
             <th>Fee</th>
           </tr>
         </thead>
 
           {% for s in students %}
-            <tr>
+            <tr class="text-center">
               <td> {{s.get_name}}</td>
-              <td> {{s.cl}}</td>
+              <td> {{s.mobile}}</td>
               <td> {{s.roll}}</td>
               <td>{{s.fee}}</td>
           {% empty %}
-              <td rowspan="2">Admission will start soon</td>
+              <td class="text-center" colspan="4">Admission will start soon</td>
             </tr>
 
 

@@ -9,19 +9,19 @@
       </div>
       <table class="table table-hover table-striped table-bordered" id="dev-table">
         <thead class="table-h">
-          <tr>
+          <tr class="text-center">
             <th>Date</th>
             <th>Present/Absent</th>
 
           </tr>
         </thead>
-        {%for attendancedata,studentdata in mylist %}
+        {%for attendancedata in mylist %}
         <tr>
            <td>{{attendancedata.date}}</td>
           <td>{{attendancedata.present_status}}</td>
 
           {% empty %}
-          <td rowspan="5">Your Attendance is not Added</td>
+          <td class="text-center" colspan="2">Your Attendance is not Added</td>
         </tr>
         {%endfor%}
       </table>

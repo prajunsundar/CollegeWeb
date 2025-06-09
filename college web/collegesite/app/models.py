@@ -1,5 +1,3 @@
-from django.db import models
-
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -8,12 +6,14 @@ from django.contrib.auth.models import User
 
 
 
-
+Department=[('Bsc.Physics','Bsc.Physics'),('Bsc.Chemistry','Bsc.Chemistry'),('Bsc.Botany','Bsc.Botany'),
+('Bsc.Zoology','Bsc.Zoology'),('Bsc.Mathmatics','Bsc.Mathmatics'),('Bsc.Electronics','Bsc.Electronics')]
 class TeacherExtra(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     salary = models.PositiveIntegerField(null=False)
     joindate=models.DateField(auto_now_add=True)
     mobile = models.CharField(max_length=40)
+    department=models.CharField(max_length=30,choices=Department)
     status=models.BooleanField(default=False)
     def __str__(self):
         return self.user.first_name

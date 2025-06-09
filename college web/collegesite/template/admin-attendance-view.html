@@ -13,7 +13,7 @@
       <table class="table table-hover table-striped table-bordered" id="dev-table">
 
         <thead class="table-h">
-          <tr>
+          <tr class="text-center">
             <th>Student Name</th>
             <th>Student Roll</th>
             <th>Present/Absent</th>
@@ -21,13 +21,13 @@
         </thead>
 
       {%for attendancedata,studentdata in mylist %}
-        <tr>
+        <tr class="text-center">
           <td>{{studentdata.get_name}}</td>
           <td>{{studentdata.roll}}</td>
           <td>{{attendancedata.present_status}}</td>
 
           {% empty %}
-          <td rowspan="5">All students are absent</td>
+          <td colspan="3">All students are absent</td>
 
         </tr>
 
