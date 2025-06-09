@@ -1,0 +1,48 @@
+
+{% extends 'admin-base3.html' %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="row user-row">
+      <div class="table-responsive">
+          <h6 class="table-title">STUDENT'S FEE</h6>
+    <div class="panel panel-primary">
+
+      <table class="table table-hover table-striped table-bordered" id="dev-table">
+
+
+        <thead class="table-h">
+
+          <tr>
+            <th>Student Name</th>
+            <th>Student Course</th>
+            <th>Student Roll No</th>
+            <th>Fee</th>
+
+          </tr>
+        </thead>
+
+          {% for s in students %}
+        <tr>
+          <td> {{s.get_name}}</td>
+          <td> {{s.cl}}</td>
+          <td> {{s.roll}}</td>
+          <td>{{s.fee}}</td>
+          {% empty %}
+          <td class="text-center" colspan="4">Admission will start soon</td>
+        </tr>
+
+
+        {% endfor %}
+      </table>
+    </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+{% endblock content %}

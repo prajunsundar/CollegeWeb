@@ -1,0 +1,40 @@
+
+
+
+{% extends 'admin-base3.html' %}
+{% block content %}
+
+<div class="container user-row">
+  <div class="row ">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h6 class="table-title">ATTENDANCE OF CLASS {{cl|upper}} AND DATE {{date}}</h6>
+      </div>
+      <table class="table table-hover table-striped table-bordered" id="dev-table">
+
+        <thead class="table-h">
+          <tr class="text-center">
+            <th>Student Name</th>
+            <th>Student Roll</th>
+            <th>Present/Absent</th>
+          </tr>
+        </thead>
+
+      {%for attendancedata,studentdata in mylist %}
+        <tr class="text-center">
+          <td>{{studentdata.get_name}}</td>
+          <td>{{studentdata.roll}}</td>
+          <td>{{attendancedata.present_status}}</td>
+
+          {% empty %}
+          <td colspan="3">All students are absent</td>
+
+        </tr>
+
+        {%endfor%}
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
